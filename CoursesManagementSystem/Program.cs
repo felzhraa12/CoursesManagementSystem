@@ -1,3 +1,6 @@
+using CoursesManagementSystem.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace CoursesManagementSystem
 {
     public class Program
@@ -8,6 +11,12 @@ namespace CoursesManagementSystem
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                 ?? throw new Exception(" NO connection string was found");
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(connectionString));
 
             var app = builder.Build();
 
